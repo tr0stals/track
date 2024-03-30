@@ -1,0 +1,15 @@
+.saveButton {
+    width: 330px;
+    height: 44px;
+    background-color: #A393F5;
+    border: 2px solid transparent;
+    border-radius: 30px;
+    font-size: 24px;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    color: white;
+  }
+  
+  .saveButton:active {
+    background-color: #792EC0;
+  }
+  
