@@ -5,7 +5,7 @@ interface NumberInputFieldProps {
 }
 
 const IndicatorPressure: React.FC<NumberInputFieldProps> = ({ style }) => {
-  const [number, setNumber] = useState<string>('5.5'); // начальное значение числа
+  const [number, setNumber] = useState<string>('110/70'); // начальное значение числа
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -31,7 +31,7 @@ const IndicatorPressure: React.FC<NumberInputFieldProps> = ({ style }) => {
             height: '41px',
             textAlign: 'center',
             fontSize: '20px',
-            marginLeft: '85px',
+            marginLeft: '75px',
             outline: 'none', // убираем стандартное выделение при фокусе
           }}
           // псевдокласс :focus для изменения стиля при активации

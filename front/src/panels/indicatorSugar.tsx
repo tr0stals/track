@@ -31,7 +31,7 @@ const IndicatorSugar: React.FC<NumberInputFieldProps> = ({ style }) => {
             height: '41px',
             textAlign: 'center',
             fontSize: '20px',
-            marginLeft: '120px',
+            marginLeft: '105px',
             outline: 'none', // убираем стандартное выделение при фокусе
           }}
           // псевдокласс :focus для изменения стиля при активации
