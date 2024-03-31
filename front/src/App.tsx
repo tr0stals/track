@@ -150,7 +150,7 @@ const App = () => {
           <div style={{ position: 'absolute', top: -5, left: '55%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
             <p style={{fontSize: '20px'}}>Календарь</p>
           </div>
-          <button className='goButton'>Перейти</button>
+          <button className='goButton' onClick={() => setActivePanel('calendar')}>Перейти</button>
         </div>
       
       
@@ -209,26 +209,6 @@ const App = () => {
       </button>
     </div>
   </div>
-					</CardGrid>
-					<CardGrid size="s" spaced>
-					<Card>
-						<div style={{ position: 'relative', paddingBottom: '50%', backgroundColor: '#A393F5', borderRadius: 20, width: '100%' }}>
-						<CalendarSVG />
-						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Календарь</div>
-						</div>
-						<button style={{ position: 'absolute', bottom: 10, right: 10 }} onClick={() => setActivePanel('calendar')}>Перейти</button>
-						</div>
-					</Card>
-					<Card>
-						<div style={{ position: 'relative', paddingBottom: '50%', backgroundColor: '#c4bcf3', borderRadius: 20, width: '100%' }}>
-						<MedicineSVG />
-						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Лекарства</div>
-						</div>
-						<button style={{ position: 'absolute', bottom: 10, right: 10 }}>Перейти</button>
-						</div>
-					</Card>
 					</CardGrid>
 						<CardGrid size="l" spaced>
 							<Card>
