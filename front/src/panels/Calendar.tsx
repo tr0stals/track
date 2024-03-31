@@ -42,7 +42,7 @@ const CalendarPanel = () => {
                   <div style={{ color: isSelected ? 'white' : '#818C99', fontSize: '12px' }}>
                     {format(day, 'EE', { locale: ru })}
                   </div>
-                  {isCurrentDay && <div style={{ position: 'absolute', top: '60%', left: '50%', transform: 'translate(-50%, -50%)', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: dotColor }} />} {/* Отображаем точку или черточку под сегодняшним днем */}
+                  {isCurrentDay && <div style={{ position: 'absolute', top: '55%', left: '50%', transform: 'translate(-50%, -50%)', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: dotColor }} />} {/* Отображаем точку или черточку под сегодняшним днем */}
                 </div>
               );
             })}
