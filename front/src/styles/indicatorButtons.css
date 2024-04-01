@@ -10,6 +10,6 @@
     border-color: #A393F5;
   }
   .indicatorButtons:active {
-    background-color: #A393F5;
+    background-color: #A393F5 !important;
     color: white;
   }

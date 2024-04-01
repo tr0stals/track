@@ -66,7 +66,7 @@ const App = () => {
 	const [text, setText] = useState('one');
 	
 	return (
-		<ConfigProvider>
+		<ConfigProvider appearance="dark">
 			<AdaptivityProvider>
 				<AppRoot>
 				<View activePanel={activePanel}>
@@ -334,9 +334,6 @@ const App = () => {
 						</div>
 					</CardGrid>	
 				</Panel>
-        <Panel id='medicine'>
-          <div style={{backgroundColor: 'blue'}}></div>
-        </Panel>
 				</View>
 				<div style={{ maxWidth: 768, margin: 'auto' }}>
 					<Tabbar style={{ position: 'static', margin: '10px 0' }}>
