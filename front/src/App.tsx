@@ -3,6 +3,7 @@ import bridge, { UserInfo } from '@vkontakte/vk-bridge';
 import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import {Icon28NewsfeedOutline, Icon28UserCircleOutline, Icon28MessageOutline, Icon24MessageOutline, Icon28BillheadOutline, Icon28Square4Outline, Icon28ArrowLeftOutline} from '@vkontakte/icons';
+import MyCalendar from './panels/Calendar';
 
 import Home from './panels/Home';
 import IndicatorPressure from './panels/indicatorPressure';
@@ -70,10 +71,12 @@ const App = () => {
 				<AppRoot>
 				<View activePanel={activePanel}>
 				<Panel id='card'>
-					<PanelHeader/>
+                    <PanelHeader/>
 				<Panel id="card">
-				<PanelHeader></PanelHeader>
 				<CardGrid size="l" spaced>
+                    <div style={{backgroundColor: "white", borderRadius: 20}}>
+                        <MyCalendar/>
+                    </div>
 			
   <div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '382px', height: '460px' }}>
     <div style={{ marginBottom: '-27px' }} >
