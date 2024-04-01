@@ -10,6 +10,7 @@ import IndicatorSugar from './panels/indicatorSugar';
 import IndicatorPulse from './panels/IndicatorPulse';
 import './styles/saveButton.css'
 import './styles/goOverButton.css'
+import './styles/indicatorButtons.css'
 
 const CalendarSVG = () => (
 	<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,7 +162,7 @@ const App = () => {
           <div style={{ position: 'absolute', top: -5, left: '55%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
             <p style={{fontSize: '20px'}}>Лекарства</p>
           </div>
-          <button className='goButton'>Перейти</button>
+          <button className='goButton' onClick={() => setActivePanel('medicines')}>Перейти</button>
         </div>
       
     </div> 
@@ -221,26 +222,27 @@ const App = () => {
 				<Panel id='calendar'>
 					<PanelHeader
 						before={
-							<PanelHeaderButton>
+							<PanelHeaderButton onClick={() => setActivePanel("card")}>
 							<Icon28ArrowLeftOutline/>
 							</PanelHeaderButton>
 						}	
 					>	
 					Календарь	
 					</PanelHeader>	
-					<Div>
-						<ButtonGroup mode="vertical" align='center' gap="m" style={{ minWidth: 328 }}>
-							<Button onClick={() => setActivePanel('calendar')} size="l" appearance="accent" stretched>
-								Сахар
-							</Button>
-							<Button onClick={() => setActivePanel('calendar1')} size="l" appearance="accent" stretched>
-								Давление
-							</Button>
-							<Button onClick={() => setActivePanel('calendar2')} size="l" appearance="accent" stretched>
-								Пульс
-							</Button>
-						</ButtonGroup>
-					</Div>
+				
+          <div style={{ display: 'flex', justifyContent: 'space-between', margin: '26px 21px 8px 21px' }}>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar')} size="l" appearance="accent" stretched style={{marginRight: '13px'}}>
+      Сахар
+    </Button>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar1')} size="l" appearance="accent" stretched>
+      Давление
+    </Button>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar2')} size="l" appearance="accent">
+      Пульс
+    </Button>
+  </div>
 					<br />
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
@@ -265,19 +267,19 @@ const App = () => {
 					>	
 					Календарь	
 					</PanelHeader>	
-					<Div>
-						<ButtonGroup mode="vertical" align='center' gap="m" style={{ minWidth: 328 }}>
-							<Button onClick={() => setActivePanel('calendar')} size="l" appearance="accent" stretched>
-								Сахар
-							</Button>
-							<Button onClick={() => setActivePanel('calendar1')} size="l" appearance="accent" stretched>
-								Давление
-							</Button>
-							<Button onClick={() => setActivePanel('calendar2')} size="l" appearance="accent" stretched>
-								Пульс
-							</Button>
-						</ButtonGroup>
-					</Div>
+					<div style={{ display: 'flex', justifyContent: 'space-between', margin: '26px 21px 8px 21px' }}>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar')} size="l" appearance="accent" stretched style={{marginRight: '13px'}}>
+      Сахар
+    </Button>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar1')} size="l" appearance="accent" stretched>
+      Давление
+    </Button>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar2')} size="l" appearance="accent">
+      Пульс
+    </Button>
+  </div>
 					<br />
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
@@ -302,19 +304,19 @@ const App = () => {
 					>	
 					Календарь	
 					</PanelHeader>	
-					<Div>
-						<ButtonGroup mode="vertical" align='center' gap="m" style={{ minWidth: 328 }}>
-							<Button onClick={() => setActivePanel('calendar')} size="l" appearance="accent" stretched>
-								Сахар
-							</Button>
-							<Button onClick={() => setActivePanel('calendar1')} size="l" appearance="accent" stretched>
-								Давление
-							</Button>
-							<Button onClick={() => setActivePanel('calendar2')} size="l" appearance="accent" stretched>
-								Пульс
-							</Button>
-						</ButtonGroup>
-					</Div>
+					<div style={{ display: 'flex', justifyContent: 'space-between', margin: '26px 21px 8px 21px' }}>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar')} size="l" appearance="accent" stretched style={{marginRight: '13px'}}>
+      Сахар
+    </Button>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar1')} size="l" appearance="accent" stretched>
+      Давление
+    </Button>
+  </div>
+  <div style={{ textAlign: 'center' }}>
+    <Button className='indicatorButtons' onClick={() => setActivePanel('calendar2')} size="l" appearance="accent">
+      Пульс
+    </Button>
+  </div>
 					<br />
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
@@ -329,6 +331,9 @@ const App = () => {
 						</div>
 					</CardGrid>	
 				</Panel>
+        <Panel id='medicine'>
+          <div style={{backgroundColor: 'blue'}}></div>
+        </Panel>
 				</View>
 				<div style={{ maxWidth: 768, margin: 'auto' }}>
 					<Tabbar style={{ position: 'static', margin: '10px 0' }}>
