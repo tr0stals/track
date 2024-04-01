@@ -7,6 +7,7 @@
     font-size: 24px;
     transition: border-color 0.3s ease, background-color 0.3s ease;
     color: white;
+    border-color: #A393F5;
   }
   
   .saveButton:active {

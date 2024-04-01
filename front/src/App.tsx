@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode, MouseEventHandler } from 'react';
+import React, { useState, useEffect, MouseEventHandler } from 'react';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
 import { 
   ScreenSpinner, 
@@ -51,27 +51,30 @@ import './styles/goOverButton.css';
 	</svg>
 	);
 
-const App = () => {
-  const [activePanel, setActivePanel] = useState('card');
-  const [fetchedUser, setUser] = useState<UserInfo | undefined>();
-  const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size='large' />);
-
-  useEffect(() => {
-    async function fetchData() {
-      const user = await bridge.send('VKWebAppGetUserInfo');
-      setUser(user);
-      setPopout(null);
-    }
-    fetchData();
-  }, []);
-
-  const go: MouseEventHandler<HTMLElement> = e => {
-    setActivePanel(e.currentTarget.dataset.to ?? 'home');
-  };
-
-  const [simple, setSimple] = useState('one');
-  const [text, setText] = useState('one');
-	
+	const App = () => {
+		const [activePanel, setActivePanel] = useState('card');
+		const [fetchedUser, setUser] = useState<UserInfo | undefined>();
+		const [popout, setPopout] = useState<React.ReactNode | null>(<ScreenSpinner size='large' />);
+	  
+		useEffect(() => {
+		  async function fetchData() {
+			try {
+			  const user = await bridge.send('VKWebAppGetUserInfo');
+			  setUser(user);
+			  setPopout(null);
+			} catch (error) {
+			  console.error('Failed to fetch user data:', error);
+			}
+		  }
+		  fetchData();
+		}, []);
+	  
+		const go: MouseEventHandler<HTMLElement> = e => {
+		  setActivePanel(e.currentTarget.dataset.to || 'home');
+		};
+	  
+		const [simple, setSimple] = useState('one');
+		const [text, setText] = useState('one');
 	return (
   <ConfigProvider appearance="light">
     <AdaptivityProvider>
