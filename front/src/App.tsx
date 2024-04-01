@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ReactNode, MouseEventHandler } from 'react';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
+import { platform } from '@vkontakte/vkui';
 import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import {Icon28NewsfeedOutline, Icon28UserCircleOutline, Icon28MessageOutline, Icon24MessageOutline, Icon28BillheadOutline, Icon28Square4Outline, Icon28ArrowLeftOutline, Icon28CancelCircleOutline} from '@vkontakte/icons';
@@ -63,7 +64,21 @@ const App = () => {
 
 	const [simple, setSimple] = useState('one');
 	const [text, setText] = useState('one');
+
+	const data = {
+		labels: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль'],
+		datasets: [
+		  {
+			label: 'Пример данных',
+			data: [65, 59, 80, 81, 56, 55, 40],
+			fill: false,
+			borderColor: 'rgb(75, 192, 192)',
+			tension: 0.1
+		  }
+		]
+	  };
 	
+		
 	return (
 		<ConfigProvider appearance="dark">
 			<AdaptivityProvider>
@@ -222,8 +237,8 @@ const App = () => {
 				<Panel id='calendar'>
 					<PanelHeader
 						before={
-							<PanelHeaderButton onClick={() => setActivePanel("card")}>
-							<Icon28ArrowLeftOutline/>
+							<PanelHeaderButton>
+							<Icon28ArrowLeftOutline onClick={() => setActivePanel('card')}/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -249,6 +264,9 @@ const App = () => {
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
 							<div>Показатели сахара за день</div>
 						</div>
+						<div>
+      <h1>График данных</h1>
+    </div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
@@ -261,7 +279,7 @@ const App = () => {
 					<PanelHeader
 						before={
 							<PanelHeaderButton>
-							<Icon28ArrowLeftOutline/>
+							<Icon28ArrowLeftOutline onClick={() => setActivePanel('calendar')}/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -298,7 +316,7 @@ const App = () => {
 				<PanelHeader
 						before={
 							<PanelHeaderButton>
-							<Icon28ArrowLeftOutline/>
+							<Icon28ArrowLeftOutline onClick={() => setActivePanel('calendar1')}/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -335,7 +353,7 @@ const App = () => {
 					<PanelHeader
 					before={
 						<PanelHeaderButton>
-						<Icon28CancelCircleOutline onClick={() => setActivePanel('card')}/>
+						<Icon28CancelCircleOutline onClick={() => setActivePanel('calendar2')}/>
 						</PanelHeaderButton>
 					}	
 					>
