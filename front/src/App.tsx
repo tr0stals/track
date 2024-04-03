@@ -117,6 +117,18 @@ const App = () => {
 		{ name: 'Дек', Давление: 100 },
 	];
 
+	const data3 = [
+		{ УровеньСахара: 6.1 },
+	];
+
+	const data4 = [
+		{ Давление: 110 },
+	];
+
+	const data5 = [
+		{ Пульс: 70 },
+	];
+
 	return (
 		<ConfigProvider appearance="dark">
 			<AdaptivityProvider>
@@ -301,7 +313,13 @@ const App = () => {
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
 							<div>Показатели сахара за день
-							
+							<BarChart width={400} height={300} data={data3}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15}/>
+							</BarChart>
 							</div>
 
 						</div>
@@ -317,7 +335,7 @@ const App = () => {
 								<YAxis />
 								<Tooltip />
 								<Legend />
-								<Bar dataKey="УровеньСахара" fill="#792EC0" />
+								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15} />
 							</BarChart>
 							</div>
 						</div>
@@ -351,7 +369,15 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели давления за день</div>
+							<div>Показатели давления за день
+							<BarChart width={400} height={300} data={data4}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="Давление" fill="rgba(163, 147, 245, 0.55)" radius={15}/>
+							</BarChart>
+							</div>
 						</div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
@@ -363,7 +389,7 @@ const App = () => {
 								<YAxis />
 								<Tooltip />
 								<Legend />
-								<Bar dataKey="Давление" fill="#792EC0" />
+								<Bar dataKey="Давление" fill="rgba(163, 147, 245, 0.55)" radius={15}/>
 							</BarChart>
 							</div>
 						</div>
@@ -397,7 +423,15 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели пульса за день</div>
+							<div>Показатели пульса за день
+							<BarChart width={400} height={300} data={data5}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="Пульс" fill="#792EC0" radius={15}/>
+							</BarChart>
+							</div>
 						</div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
@@ -409,7 +443,7 @@ const App = () => {
 								<YAxis />
 								<Tooltip />
 								<Legend />
-								<Bar dataKey="Пульс" fill="#792EC0" />
+								<Bar dataKey="Пульс" fill="#792EC0" radius={15}/>
 							</BarChart>
 							</div>
 						</div>
