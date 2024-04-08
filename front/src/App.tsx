@@ -11,6 +11,7 @@ import IndicatorPulse from './panels/IndicatorPulse';
 import './styles/saveButton.css'
 import './styles/goOverButton.css'
 import './styles/indicatorButtons.css'
+import './styles/medicineCheckbox.css'
 
 const CalendarSVG = () => (
 	<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -211,12 +212,6 @@ const App = () => {
     </div>
   </div>
 					</CardGrid>
-						<CardGrid size="l" spaced>
-							<Card>
-								<div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20}} />
-							</Card>
-						</CardGrid>
-						<Spacing size={16} />
 					</Panel>
 				</Panel>
 				<Panel id='calendar'>
@@ -342,12 +337,122 @@ const App = () => {
 						Лекарства	
 					</PanelHeader>	
 					<CardGrid size="s" spaced>
-						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
-							<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							</div>
-						</div>
+          <div style={{backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '384px', height: '525px' }}>
+    <div style={{ marginBottom: '-27px' }} >
+    <svg width="376" height="175" viewBox="0 0 376 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_dd_244_14610)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M31.6349 36.1901C30 39.3988 30 43.5992 30 52V91C30 99.4008 30 103.601 31.6349 106.81C33.073 109.632 35.3677 111.927 38.1901 113.365C41.3988 115 45.5992 115 54 115H52.7242C59.0711 115 64.6066 121.872 69.7532 128.262C74.2244 133.813 78.4022 139 82.5637 139C86.7183 139 90.8728 133.831 95.3256 128.29C100.467 121.893 106.007 115 112.403 115H320C328.401 115 332.601 115 335.81 113.365C338.632 111.927 340.927 109.632 342.365 106.81C344 103.601 344 99.4008 344 91V52C344 43.5992 344 39.3988 342.365 36.1901C340.927 33.3677 338.632 31.073 335.81 29.6349C332.601 28 328.401 28 320 28H54C45.5992 28 41.3988 28 38.1901 29.6349C35.3677 31.073 33.073 33.3677 31.6349 36.1901Z" fill="#A393F5" fill-opacity="0.55"/>
+</g>
+<text x="50" y="60" fill="white" fontSize="20" fontWeight="none">Какой уровень является <tspan x="50" dy="25">для</tspan><br />  вас нормальным?
+</text>
+<defs>
+<filter id="filter0_dd_244_14610" x="-2" y="0" width="378" height="175" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="4"/>
+<feGaussianBlur stdDeviation="16"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_244_14610"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset/>
+<feGaussianBlur stdDeviation="2"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+<feBlend mode="normal" in2="effect1_dropShadow_244_14610" result="effect2_dropShadow_244_14610"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_244_14610" result="shape"/>
+</filter>
+</defs>
+</svg>
+
+    </div>
+    <div style={{ marginBottom: '11px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '334px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <svg width="29" height="38" viewBox="0 0 29 38" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '5px' }}>
+        <path d="M27.0417 8.75L25.0197 33.3051C24.8284 35.6285 22.8869 37.4167 20.5556 37.4167H8.44453C6.11329 37.4167 4.1718 35.6285 3.98048 33.3051L1.95841 8.75H27.0417ZM14.5001 12.3333C14.0053 12.3333 13.6042 12.7344 13.6042 13.2292V32.0417C13.6042 32.5364 14.0053 32.9375 14.5001 32.9375C14.9948 32.9375 15.3959 32.5364 15.3959 32.0417V13.2292C15.3959 12.7344 14.9948 12.3333 14.5001 12.3333ZM19.8751 12.3333C19.3742 12.3333 18.9621 12.7279 18.9403 13.2283L18.1223 32.0425L18.1215 32.0798C18.1215 32.5535 18.5055 32.9375 18.9792 32.9375C19.4802 32.9375 19.8922 32.543 19.914 32.0425L20.732 13.2283L20.7328 13.1911C20.7328 12.7174 20.3488 12.3333 19.8751 12.3333ZM9.12508 12.3333L9.08782 12.3341C8.61456 12.3547 8.24758 12.7551 8.26816 13.2283L9.08617 32.0425C9.10793 32.543 9.51999 32.9375 10.0209 32.9375C10.0333 32.9375 10.0458 32.9372 10.0582 32.9367C10.5314 32.9161 10.8984 32.5158 10.8778 32.0425L10.0598 13.2283C10.0381 12.7279 9.62601 12.3333 9.12508 12.3333ZM16.2917 0.6875C18.1286 0.6875 19.7072 1.79319 20.3983 3.37531L27.0417 3.375C28.0313 3.375 28.8334 4.17716 28.8334 5.16667V6.51042C28.8334 6.75779 28.6329 6.95833 28.3855 6.95833H0.614665C0.367287 6.95833 0.166748 6.75779 0.166748 6.51042V5.16667C0.166748 4.17716 0.968904 3.375 1.95841 3.375L8.60182 3.37531C9.29293 1.79319 10.8715 0.6875 12.7084 0.6875H16.2917Z" fill="#A393F5" fill-opacity="0.55"/>
+    </svg>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}> 
+        <p style={{ color: 'black', fontSize: '24px', marginBottom: '0', marginLeft: '5px', marginTop: '0' }}>Парацетомол</p> 
+    </div>
+    <a style={{cursor: 'pointer', paddingTop: '5px'}} onClick={() => setActivePanel('detailsMedicine')}>
+    <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 38.625C30.0624 38.625 38.625 30.0624 38.625 19.5C38.625 8.93755 30.0624 0.375 19.5 0.375C8.93755 0.375 0.375 8.93755 0.375 19.5C0.375 30.0624 8.93755 38.625 19.5 38.625ZM35.25 19.5C35.25 28.1985 28.1985 35.25 19.5 35.25C10.8015 35.25 3.75 28.1985 3.75 19.5C3.75 10.8015 10.8015 3.75 19.5 3.75C28.1985 3.75 35.25 10.8015 35.25 19.5ZM18.4432 11.5568C17.7842 10.8977 16.7158 10.8977 16.0568 11.5568C15.3977 12.2158 15.3977 13.2842 16.0568 13.9432L21.6135 19.5L16.0568 25.0568C15.3977 25.7158 15.3977 26.7842 16.0568 27.4432C16.7158 28.1023 17.7842 28.1023 18.4432 27.4432L25.1932 20.6932C25.8523 20.0342 25.8523 18.9658 25.1932 18.3068L18.4432 11.5568Z" fill="#A393F5"/>
+    </svg>
+    </a>
+</div>
+
+<div style={{ marginBottom: '11px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '334px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <svg width="29" height="38" viewBox="0 0 29 38" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginRight: '5px' }}>
+        <path d="M27.0417 8.75L25.0197 33.3051C24.8284 35.6285 22.8869 37.4167 20.5556 37.4167H8.44453C6.11329 37.4167 4.1718 35.6285 3.98048 33.3051L1.95841 8.75H27.0417ZM14.5001 12.3333C14.0053 12.3333 13.6042 12.7344 13.6042 13.2292V32.0417C13.6042 32.5364 14.0053 32.9375 14.5001 32.9375C14.9948 32.9375 15.3959 32.5364 15.3959 32.0417V13.2292C15.3959 12.7344 14.9948 12.3333 14.5001 12.3333ZM19.8751 12.3333C19.3742 12.3333 18.9621 12.7279 18.9403 13.2283L18.1223 32.0425L18.1215 32.0798C18.1215 32.5535 18.5055 32.9375 18.9792 32.9375C19.4802 32.9375 19.8922 32.543 19.914 32.0425L20.732 13.2283L20.7328 13.1911C20.7328 12.7174 20.3488 12.3333 19.8751 12.3333ZM9.12508 12.3333L9.08782 12.3341C8.61456 12.3547 8.24758 12.7551 8.26816 13.2283L9.08617 32.0425C9.10793 32.543 9.51999 32.9375 10.0209 32.9375C10.0333 32.9375 10.0458 32.9372 10.0582 32.9367C10.5314 32.9161 10.8984 32.5158 10.8778 32.0425L10.0598 13.2283C10.0381 12.7279 9.62601 12.3333 9.12508 12.3333ZM16.2917 0.6875C18.1286 0.6875 19.7072 1.79319 20.3983 3.37531L27.0417 3.375C28.0313 3.375 28.8334 4.17716 28.8334 5.16667V6.51042C28.8334 6.75779 28.6329 6.95833 28.3855 6.95833H0.614665C0.367287 6.95833 0.166748 6.75779 0.166748 6.51042V5.16667C0.166748 4.17716 0.968904 3.375 1.95841 3.375L8.60182 3.37531C9.29293 1.79319 10.8715 0.6875 12.7084 0.6875H16.2917Z" fill="#A393F5" fill-opacity="0.55"/>
+    </svg>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}> 
+        <p style={{ color: 'black', fontSize: '24px', marginBottom: '0', marginLeft: '5px', marginTop: '0' }}>Глюкофаж Логн</p> 
+    </div>
+    <a style={{cursor: 'pointer', paddingTop: '5px'}} onClick={() => setActivePanel('detailsMedicine')}>
+    <svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M19.5 38.625C30.0624 38.625 38.625 30.0624 38.625 19.5C38.625 8.93755 30.0624 0.375 19.5 0.375C8.93755 0.375 0.375 8.93755 0.375 19.5C0.375 30.0624 8.93755 38.625 19.5 38.625ZM35.25 19.5C35.25 28.1985 28.1985 35.25 19.5 35.25C10.8015 35.25 3.75 28.1985 3.75 19.5C3.75 10.8015 10.8015 3.75 19.5 3.75C28.1985 3.75 35.25 10.8015 35.25 19.5ZM18.4432 11.5568C17.7842 10.8977 16.7158 10.8977 16.0568 11.5568C15.3977 12.2158 15.3977 13.2842 16.0568 13.9432L21.6135 19.5L16.0568 25.0568C15.3977 25.7158 15.3977 26.7842 16.0568 27.4432C16.7158 28.1023 17.7842 28.1023 18.4432 27.4432L25.1932 20.6932C25.8523 20.0342 25.8523 18.9658 25.1932 18.3068L18.4432 11.5568Z" fill="#A393F5"/>
+    </svg>
+    </a>
+</div>
+<div style={{ marginBottom: '11px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '334px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    
+<svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.4999 0.458496C25.3595 0.458496 32.5416 7.6406 32.5416 16.5002C32.5416 25.3597 25.3595 32.5418 16.4999 32.5418C7.64035 32.5418 0.458252 25.3597 0.458252 16.5002C0.458252 7.6406 7.64035 0.458496 16.4999 0.458496ZM16.4999 7.75016C15.6945 7.75016 15.0416 8.40308 15.0416 9.2085V15.0418H9.20825C8.46037 15.0418 7.84397 15.6048 7.75973 16.3301L7.74992 16.5002C7.74992 17.3056 8.40284 17.9585 9.20825 17.9585H15.0416V23.7918C15.0416 24.5397 15.6046 25.1561 16.3298 25.2404L16.4999 25.2502C17.3053 25.2502 17.9583 24.5972 17.9583 23.7918V17.9585H23.7916C24.5395 17.9585 25.1559 17.3955 25.2401 16.6702L25.2499 16.5002C25.2499 15.6947 24.597 15.0418 23.7916 15.0418H17.9583V9.2085C17.9583 8.46061 17.3953 7.84422 16.67 7.75997L16.4999 7.75016Z" fill="#A393F5"/>
+</svg>
+</div>
+<div style={{ marginBottom: '11px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '334px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    
+<svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.4999 0.458496C25.3595 0.458496 32.5416 7.6406 32.5416 16.5002C32.5416 25.3597 25.3595 32.5418 16.4999 32.5418C7.64035 32.5418 0.458252 25.3597 0.458252 16.5002C0.458252 7.6406 7.64035 0.458496 16.4999 0.458496ZM16.4999 7.75016C15.6945 7.75016 15.0416 8.40308 15.0416 9.2085V15.0418H9.20825C8.46037 15.0418 7.84397 15.6048 7.75973 16.3301L7.74992 16.5002C7.74992 17.3056 8.40284 17.9585 9.20825 17.9585H15.0416V23.7918C15.0416 24.5397 15.6046 25.1561 16.3298 25.2404L16.4999 25.2502C17.3053 25.2502 17.9583 24.5972 17.9583 23.7918V17.9585H23.7916C24.5395 17.9585 25.1559 17.3955 25.2401 16.6702L25.2499 16.5002C25.2499 15.6947 24.597 15.0418 23.7916 15.0418H17.9583V9.2085C17.9583 8.46061 17.3953 7.84422 16.67 7.75997L16.4999 7.75016Z" fill="#A393F5"/>
+</svg>
+</div>
+<div style={{ marginBottom: '11px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '334px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    
+<svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.4999 0.458496C25.3595 0.458496 32.5416 7.6406 32.5416 16.5002C32.5416 25.3597 25.3595 32.5418 16.4999 32.5418C7.64035 32.5418 0.458252 25.3597 0.458252 16.5002C0.458252 7.6406 7.64035 0.458496 16.4999 0.458496ZM16.4999 7.75016C15.6945 7.75016 15.0416 8.40308 15.0416 9.2085V15.0418H9.20825C8.46037 15.0418 7.84397 15.6048 7.75973 16.3301L7.74992 16.5002C7.74992 17.3056 8.40284 17.9585 9.20825 17.9585H15.0416V23.7918C15.0416 24.5397 15.6046 25.1561 16.3298 25.2404L16.4999 25.2502C17.3053 25.2502 17.9583 24.5972 17.9583 23.7918V17.9585H23.7916C24.5395 17.9585 25.1559 17.3955 25.2401 16.6702L25.2499 16.5002C25.2499 15.6947 24.597 15.0418 23.7916 15.0418H17.9583V9.2085C17.9583 8.46061 17.3953 7.84422 16.67 7.75997L16.4999 7.75016Z" fill="#A393F5"/>
+</svg>
+</div>
+  </div>
 					</CardGrid>
 				</Panel>
+        <Panel id='detailsMedicine'>
+        <PanelHeader
+					before={
+						<PanelHeaderButton>
+						<Icon28CancelCircleOutline onClick={() => setActivePanel('card')}/>
+						</PanelHeaderButton>
+					}	
+					>
+						Лекарства	
+					</PanelHeader>
+          <div style={{backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', width: '380px', height: '222px', padding: '4px 10px 10px 16px', marginLeft: '17px', marginTop: '15px' }}>
+    <div>
+        <p style={{fontSize: '24px', color: 'black', margin: '4px 0px 0px 4px'}}>Частота приема:</p>
+    </div>
+    <div style={{ backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '354px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '9px' }}>    
+        <label htmlFor="intervalCheckbox" style={{ width: '100%', cursor: 'pointer' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <label style={{ fontSize: '20px', color: 'black' }}>С равными интервалами</label>
+                <input className='medicineCheckbox' type="checkbox" id="intervalCheckbox"/>
+            </div>
+        </label>
+    </div>
+    <div style={{ backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '354px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '9px' }}>    
+        <label htmlFor="daysCheckbox" style={{ width: '100%', cursor: 'pointer' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <label style={{ fontSize: '20px', color: 'black' }}>В определенные дни недели</label>
+                <input className='medicineCheckbox' type="checkbox" id="daysCheckbox"/>
+            </div>
+        </label>
+    </div>
+    <div style={{ backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '354px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '9px' }}>    
+        <label htmlFor="asNeededCheckbox" style={{ width: '100%', cursor: 'pointer' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                <span style={{ fontSize: '20px', color: 'black' }}>По мере необходимости</span>
+                <input className='medicineCheckbox' type="checkbox" id="asNeededCheckbox"/>
+            </div>
+        </label>
+    </div>
+</div>
+
+        </Panel>
 				</View>
 				<div style={{ maxWidth: 768, margin: 'auto' }}>
 					<Tabbar style={{ position: 'static', margin: '10px 0' }}>
