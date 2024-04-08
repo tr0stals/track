@@ -1,8 +1,12 @@
 import React, { useState, useEffect, ReactNode, MouseEventHandler } from 'react';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
+import { platform } from '@vkontakte/vkui';
 import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import {Icon28NewsfeedOutline, Icon28UserCircleOutline, Icon28MessageOutline, Icon24MessageOutline, Icon28BillheadOutline, Icon28Square4Outline, Icon28ArrowLeftOutline, Icon28CancelCircleOutline} from '@vkontakte/icons';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+
 
 import Home from './panels/Home';
 import IndicatorPressure from './panels/indicatorPressure';
@@ -33,6 +37,9 @@ const App = () => {
 	const [fetchedUser, setUser] = useState<UserInfo | undefined>();
 	const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size='large' />);
 
+
+
+
 	const CalendarSVG = () => (
 		<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M18.6666 18.6666C18.6666 19.7712 17.7712 20.6666 16.6666 20.6666C15.5621 20.6666 14.6666 19.7712 14.6666 18.6666C14.6666 17.5621 15.5621 16.6666 16.6666 16.6666C17.7712 16.6666 18.6666 17.5621 18.6666 18.6666Z" fill="white"/>
@@ -50,6 +57,7 @@ const App = () => {
 	  
 
 	useEffect(() => {
+		
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			setUser(user);
@@ -64,7 +72,64 @@ const App = () => {
 
 	const [simple, setSimple] = useState('one');
 	const [text, setText] = useState('one');
-	
+
+	const data = [
+		{ name: 'Янв', УровеньСахара: 6.1 },
+		{ name: 'Фев', УровеньСахара: 5.5 },
+		{ name: 'Мар', УровеньСахара: 2.5 },
+		{ name: 'Апр', УровеньСахара: 5.5 },
+		{ name: 'Май', УровеньСахара: 6.1 },
+		{ name: 'Июн', УровеньСахара: 5.5 },
+		{ name: 'Июл', УровеньСахара: 6.1 },
+		{ name: 'Авг', УровеньСахара: 6.1 },
+		{ name: 'Сен', УровеньСахара: 2.5 },
+		{ name: 'Окт', УровеньСахара: 2.5 },
+		{ name: 'Ноя', УровеньСахара: 6.1 },
+		{ name: 'Дек', УровеньСахара: 5.5 },
+	];
+
+	const data1 = [
+		{ name: 'Янв', Пульс: 70 },
+		{ name: 'Фев', Пульс: 50 },
+		{ name: 'Мар', Пульс: 40 },
+		{ name: 'Апр', Пульс: 40 },
+		{ name: 'Май', Пульс: 50 },
+		{ name: 'Июн', Пульс: 70 },
+		{ name: 'Июл', Пульс: 50 },
+		{ name: 'Авг', Пульс: 70 },
+		{ name: 'Сен', Пульс: 50 },
+		{ name: 'Окт', Пульс: 50 },
+		{ name: 'Ноя', Пульс: 70 },
+		{ name: 'Дек', Пульс: 70 },
+	];
+
+	const data2 = [
+		{ name: 'Янв', Давление: 120 },
+		{ name: 'Фев', Давление: 110 },
+		{ name: 'Мар', Давление: 100 },
+		{ name: 'Апр', Давление: 110 },
+		{ name: 'Май', Давление: 110 },
+		{ name: 'Июн', Давление: 100 },
+		{ name: 'Июл', Давление: 110 },
+		{ name: 'Авг', Давление: 110 },
+		{ name: 'Сен', Давление: 120 },
+		{ name: 'Окт', Давление: 120 },
+		{ name: 'Ноя', Давление: 100 },
+		{ name: 'Дек', Давление: 100 },
+	];
+
+	const data3 = [
+		{ УровеньСахара: 6.1 },
+	];
+
+	const data4 = [
+		{ Давление: 110 },
+	];
+
+	const data5 = [
+		{ Пульс: 70 },
+	];
+
 	return (
 		<ConfigProvider appearance="dark">
 			<AdaptivityProvider>
@@ -217,8 +282,8 @@ const App = () => {
 				<Panel id='calendar'>
 					<PanelHeader
 						before={
-							<PanelHeaderButton onClick={() => setActivePanel("card")}>
-							<Icon28ArrowLeftOutline/>
+							<PanelHeaderButton>
+							<Icon28ArrowLeftOutline onClick={() => setActivePanel('card')}/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -242,12 +307,32 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели сахара за день</div>
+							<div>Показатели сахара за день
+							<BarChart width={400} height={300} data={data3}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15}/>
+							</BarChart>
+							</div>
+
 						</div>
+						<div>
+   	 </div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели сахара за год</div>
+							<div>Показатели сахара за год
+							<BarChart width={400} height={300} data={data}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<XAxis dataKey="name" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15} />
+							</BarChart>
+							</div>
 						</div>
 						</div>
 					</CardGrid>
@@ -256,7 +341,7 @@ const App = () => {
 					<PanelHeader
 						before={
 							<PanelHeaderButton>
-							<Icon28ArrowLeftOutline/>
+							<Icon28ArrowLeftOutline onClick={() => setActivePanel('calendar')}/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -279,12 +364,29 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели давления за день</div>
+							<div>Показатели давления за день
+							<BarChart width={400} height={300} data={data4}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="Давление" fill="rgba(163, 147, 245, 0.55)" radius={15}/>
+							</BarChart>
+							</div>
 						</div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели давления за год</div>
+							<div>Показатели давления за год
+							<BarChart width={400} height={300} data={data2}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<XAxis dataKey="name" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="Давление" fill="rgba(163, 147, 245, 0.55)" radius={15}/>
+							</BarChart>
+							</div>
 						</div>
 						</div>
 					</CardGrid>
@@ -293,7 +395,7 @@ const App = () => {
 				<PanelHeader
 						before={
 							<PanelHeaderButton>
-							<Icon28ArrowLeftOutline/>
+							<Icon28ArrowLeftOutline onClick={() => setActivePanel('calendar1')}/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -316,12 +418,29 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели пульса за день</div>
+							<div>Показатели пульса за день
+							<BarChart width={400} height={300} data={data5}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="Пульс" fill="#792EC0" radius={15}/>
+							</BarChart>
+							</div>
 						</div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели пульса за год</div>
+							<div>Показатели пульса за год
+							<BarChart width={400} height={300} data={data1}>
+								<CartesianGrid strokeDasharray="3 3" />
+								<XAxis dataKey="name" />
+								<YAxis />
+								<Tooltip />
+								<Legend />
+								<Bar dataKey="Пульс" fill="#792EC0" radius={15}/>
+							</BarChart>
+							</div>
 						</div>
 						</div>
 					</CardGrid>	
@@ -330,7 +449,7 @@ const App = () => {
 					<PanelHeader
 					before={
 						<PanelHeaderButton>
-						<Icon28CancelCircleOutline onClick={() => setActivePanel('card')}/>
+						<Icon28CancelCircleOutline onClick={() => setActivePanel('calendar2')}/>
 						</PanelHeaderButton>
 					}	
 					>
@@ -454,22 +573,6 @@ const App = () => {
 
         </Panel>
 				</View>
-				<div style={{ maxWidth: 768, margin: 'auto' }}>
-					<Tabbar style={{ position: 'static', margin: '10px 0' }}>
-					<TabbarItem selected={text === 'one'} onClick={() => setText('one')} text="Сервисы">
-							<Icon28Square4Outline />
-						</TabbarItem>
-						<TabbarItem selected={text === 'two'} onClick={() => setText('two')} text="Новости">
-							<Icon28NewsfeedOutline />
-						</TabbarItem>
-						<TabbarItem selected={text === 'three'} onClick={() => setText('three')} text="Профиль">
-							<Icon28UserCircleOutline />
-						</TabbarItem>
-						<TabbarItem selected={text === 'four'} onClick={() => setText('four')} text="Мессенджер">
-							<Icon28MessageOutline />
-						</TabbarItem>
-					</Tabbar>
-  				</div>
 				</AppRoot>
 			</AdaptivityProvider>
 		</ConfigProvider>
