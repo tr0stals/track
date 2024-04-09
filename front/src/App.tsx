@@ -321,6 +321,7 @@ const App = () => {
 								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15}/>
 							</BarChart>
 							</div>
+							<p>Привет!</p>
 
 						</div>
 						<div>
