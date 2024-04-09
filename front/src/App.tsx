@@ -16,6 +16,7 @@ import IndicatorPulse from './panels/IndicatorPulse';
 import './styles/saveButton.css'
 import './styles/goOverButton.css'
 import './styles/indicatorButtons.css'
+import MyFullCalendar from './panels/FullCalendar';
 
 const CalendarSVG = () => (
 	<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -298,7 +299,7 @@ const App = () => {
     <Button className='indicatorButtons' onClick={() => setActivePanel('calendar2')} size="l" appearance="accent">
       Пульс
     </Button>
-  </div>
+  </div>        <MyFullCalendar/>
 					<br />
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
@@ -337,6 +338,7 @@ const App = () => {
 					>	
 					Календарь	
 					</PanelHeader>	
+          
 					<div style={{ display: 'flex', justifyContent: 'space-between', margin: '26px 21px 8px 21px' }}>
     <Button className='indicatorButtons' onClick={() => setActivePanel('calendar')} size="l" appearance="accent" stretched style={{marginRight: '13px'}}>
       Сахар
@@ -350,6 +352,7 @@ const App = () => {
       Пульс
     </Button>
   </div>
+  					<MyFullCalendar/>
 					<br />
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
@@ -396,7 +399,9 @@ const App = () => {
       Пульс
     </Button>
   </div>
+  					<MyFullCalendar/>
 					<br />
+					
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
