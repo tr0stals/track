@@ -1,12 +1,8 @@
-import React, { useState, useEffect, ReactNode, MouseEventHandler } from 'react';
+import React, { useState, useEffect, ReactNode, MouseEventHandler, useRef } from 'react';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
-import { platform } from '@vkontakte/vkui';
-import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup} from '@vkontakte/vkui';
+import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup, ModalDismissButton} from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import {Icon28NewsfeedOutline, Icon28UserCircleOutline, Icon28MessageOutline, Icon24MessageOutline, Icon28BillheadOutline, Icon28Square4Outline, Icon28ArrowLeftOutline, Icon28CancelCircleOutline} from '@vkontakte/icons';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-
 
 import Home from './panels/Home';
 import IndicatorPressure from './panels/indicatorPressure';
@@ -16,6 +12,8 @@ import './styles/saveButton.css'
 import './styles/goOverButton.css'
 import './styles/indicatorButtons.css'
 import './styles/medicineCheckbox.css'
+import './styles/changeNormalButton.css'
+import './styles/calendarBlur.css'
 
 const CalendarSVG = () => (
 	<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -36,9 +34,9 @@ const App = () => {
 	const [activePanel, setActivePanel] = useState('card');
 	const [fetchedUser, setUser] = useState<UserInfo | undefined>();
 	const [popout, setPopout] = useState<ReactNode | null>(<ScreenSpinner size='large' />);
-
-
-
+  const [isPopoutOpen, setIsPopoutOpen] = useState(false);
+  const [calendarBlur, setCalendarBlur] = useState(false);
+  const [medicineBlur, setMedicineBlur] = useState(false);
 
 	const CalendarSVG = () => (
 		<svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,12 +50,148 @@ const App = () => {
 <path d="M20.925 5.43319C21.6954 5.43319 22.32 6.0587 22.32 6.8303V7.91694H23.405C24.1754 7.91694 24.8 8.54244 24.8 9.31404C24.8 10.0856 24.1754 10.7112 23.405 10.7112H22.32V11.7978C22.32 12.5694 21.6954 13.1949 20.925 13.1949C20.1546 13.1949 19.53 12.5694 19.53 11.7978V10.7112H18.445C17.6746 10.7112 17.05 10.0856 17.05 9.31404C17.05 8.54244 17.6746 7.91694 18.445 7.91694H19.53V6.8303C19.53 6.0587 20.1546 5.43319 20.925 5.43319Z" fill="white"/>
 <path fill-rule="evenodd" clip-rule="evenodd" d="M15.6721 2.63823C17.4203 0.998677 19.4378 0.108362 21.6872 0.00929264L22.1117 0C27.0054 0 31 3.97441 31 8.87509C31 13.4681 29.3952 15.7469 22.3617 21.3888L20.9152 22.5372L17.2508 25.3974C16.2215 26.2009 14.7785 26.2009 13.7492 25.3974L9.58276 22.1411C1.74736 15.9407 0 13.6678 0 8.87509C0 3.97441 3.99459 0 8.88828 0C11.2756 0 13.427 0.894234 15.302 2.63123L15.4907 2.81439L15.6721 2.63823ZM28.21 8.87509C28.21 5.52174 25.4686 2.79421 22.1117 2.79421C20.0085 2.79421 18.1953 3.7499 16.5881 5.75627C16.0333 6.44883 14.9827 6.45419 14.4208 5.76733C12.7732 3.75291 10.9543 2.79421 8.88828 2.79421C5.53137 2.79421 2.79 5.52174 2.79 8.87509C2.79 12.3671 4.025 14.1227 10.4454 19.2593L11.7998 20.3332L15.4643 23.1935C15.4853 23.2099 15.5147 23.2099 15.5357 23.1935L19.6634 19.9679C26.5564 14.5176 28.0847 12.6786 28.2023 9.33085L28.21 8.87509Z" fill="white"/>
 </svg>
-
 	  );
-	  
+
+    const handleEditNormClick = () => {
+      setCalendarBlur(true);
+      setMedicineBlur(true);
+    };
+
+    const onClick = () => {
+      setPopout(<CustomPopout onClose={() => setIsPopoutOpen(false)} />);
+      setIsPopoutOpen(true);
+    };
+
+    interface CustomPopoutProps {
+      onClose: () => void;
+    }
+    
+    const CustomPopout: React.FC<CustomPopoutProps> = ({ onClose }) => {
+      const popoutRef = useRef<HTMLDivElement>(null);
+    
+      useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+          if (popoutRef.current && !popoutRef.current.contains(event.target as Node)) {
+            onClose();
+          }
+        };
+    
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [onClose]);
+    
+      return (
+        <div ref={popoutRef} style={{
+          backgroundColor: 'rgba(0, 0, 0, 0.35)',
+      backdropFilter: 'blur(4px)',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+        }}>
+          
+          <CardGrid size="l" spaced>
+			
+      <div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '382px', height: '460px' }}>
+        <div style={{ marginBottom: '-27px' }} >
+          <svg width="361" height="175" viewBox="0 0 361 175" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_dd_278_7308)">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M327.365 36.1901C329 39.3988 329 43.5992 329 52V91C329 99.4008 329 103.601 327.365 106.81C325.927 109.632 323.632 111.927 320.81 113.365C317.601 115 313.401 115 305 115H306.276C299.929 115 294.393 121.872 289.247 128.262C284.776 133.813 280.598 139 276.436 139C272.282 139 268.127 133.831 263.674 128.29C258.533 121.893 252.993 115 246.597 115H56C47.5992 115 43.3988 115 40.1902 113.365C37.3677 111.927 35.073 109.632 33.6349 106.81C32 103.601 32 99.4008 32 91V52C32 43.5992 32 39.3988 33.6349 36.1901C35.073 33.3677 37.3677 31.073 40.1902 29.6349C43.3988 28 47.5992 28 56 28H305C313.401 28 317.601 28 320.81 29.6349C323.632 31.073 325.927 33.3677 327.365 36.1901Z" fill="#A393F5" fill-opacity="0.55"/>
+            </g>
+            <text x="50" y="60" fill="white" fontSize="20" fontWeight="none">Какой уровень является <tspan x="50" dy="25">для</tspan><br />  вас нормальным?
+    </text>
+            <defs>
+              <filter id="filter0_dd_278_7308" x="0" y="0" width="361" height="175" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dy="4"/>
+                <feGaussianBlur stdDeviation="16"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_278_7308"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset/>
+                <feGaussianBlur stdDeviation="2"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
+                <feBlend mode="normal" in2="effect1_dropShadow_278_7308" result="effect2_dropShadow_278_7308"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_278_7308" result="shape"/>
+              </filter>
+            </defs>
+          </svg>
+        </div>
+        <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px #d4d4d6 solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
+            <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Сахар</p> 
+            <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ммоль/л</p> 
+          </div>
+          <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <IndicatorSugar />
+            </div>
+          </div>
+        </div>
+        <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px #d4d4d6 solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
+            <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Давление</p> 
+            <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Мм.рт.ст.</p> 
+          </div>
+          <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <IndicatorPressure />
+            </div>
+          </div>
+        </div>
+        <div style={{ backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px #d4d4d6 solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
+            <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Пульс</p> 
+            <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ударов в минуту</p> 
+          </div>
+          <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
+              <div style={{ position: 'relative', width: '100%' }}>
+                <IndicatorPulse />
+              </div>
+          </div>
+        </div>
+        <div style={{ marginTop: '22px' }}>
+        <button className='saveButton' onClick={ onClose }>
+  Сохранить
+</button>
+        </div>
+      </div>
+          </CardGrid>
+
+          </div>
+      );
+    };
+    
+    const Example = () => {
+      const [popout, setPopout] = useState<React.ReactNode>(null);
+    
+      const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} />);
+    
+      return (
+        <div>
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <button className='changeNormal' onClick={onClick}>
+            Изменить норму <br/> показаний
+          </button>
+          </div>
+    
+          {popout}
+        </div>
+      );
+    };
+    
+    <Example />;
+
+    
 
 	useEffect(() => {
-		
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			setUser(user);
@@ -72,218 +206,92 @@ const App = () => {
 
 	const [simple, setSimple] = useState('one');
 	const [text, setText] = useState('one');
-
-	const data = [
-		{ name: 'Янв', УровеньСахара: 6.1 },
-		{ name: 'Фев', УровеньСахара: 5.5 },
-		{ name: 'Мар', УровеньСахара: 2.5 },
-		{ name: 'Апр', УровеньСахара: 5.5 },
-		{ name: 'Май', УровеньСахара: 6.1 },
-		{ name: 'Июн', УровеньСахара: 5.5 },
-		{ name: 'Июл', УровеньСахара: 6.1 },
-		{ name: 'Авг', УровеньСахара: 6.1 },
-		{ name: 'Сен', УровеньСахара: 2.5 },
-		{ name: 'Окт', УровеньСахара: 2.5 },
-		{ name: 'Ноя', УровеньСахара: 6.1 },
-		{ name: 'Дек', УровеньСахара: 5.5 },
-	];
-
-	const data1 = [
-		{ name: 'Янв', Пульс: 70 },
-		{ name: 'Фев', Пульс: 50 },
-		{ name: 'Мар', Пульс: 40 },
-		{ name: 'Апр', Пульс: 40 },
-		{ name: 'Май', Пульс: 50 },
-		{ name: 'Июн', Пульс: 70 },
-		{ name: 'Июл', Пульс: 50 },
-		{ name: 'Авг', Пульс: 70 },
-		{ name: 'Сен', Пульс: 50 },
-		{ name: 'Окт', Пульс: 50 },
-		{ name: 'Ноя', Пульс: 70 },
-		{ name: 'Дек', Пульс: 70 },
-	];
-
-	const data2 = [
-		{ name: 'Янв', Давление: 120 },
-		{ name: 'Фев', Давление: 110 },
-		{ name: 'Мар', Давление: 100 },
-		{ name: 'Апр', Давление: 110 },
-		{ name: 'Май', Давление: 110 },
-		{ name: 'Июн', Давление: 100 },
-		{ name: 'Июл', Давление: 110 },
-		{ name: 'Авг', Давление: 110 },
-		{ name: 'Сен', Давление: 120 },
-		{ name: 'Окт', Давление: 120 },
-		{ name: 'Ноя', Давление: 100 },
-		{ name: 'Дек', Давление: 100 },
-	];
-
-	const data3 = [
-		{ УровеньСахара: 6.1 },
-	];
-
-	const data4 = [
-		{ Давление: 110 },
-	];
-
-	const data5 = [
-		{ Пульс: 70 },
-	];
-
+	
 	return (
 		<ConfigProvider appearance="dark">
 			<AdaptivityProvider>
 				<AppRoot>
 				<View activePanel={activePanel}>
-				<Panel id='card'>
-					<PanelHeader/>
-				<Panel id="card">
-				<PanelHeader></PanelHeader>
-				<CardGrid size="l" spaced>
-			
-  <div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '382px', height: '460px' }}>
-    <div style={{ marginBottom: '-27px' }} >
-      <svg width="361" height="175" viewBox="0 0 361 175" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g filter="url(#filter0_dd_278_7308)">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M327.365 36.1901C329 39.3988 329 43.5992 329 52V91C329 99.4008 329 103.601 327.365 106.81C325.927 109.632 323.632 111.927 320.81 113.365C317.601 115 313.401 115 305 115H306.276C299.929 115 294.393 121.872 289.247 128.262C284.776 133.813 280.598 139 276.436 139C272.282 139 268.127 133.831 263.674 128.29C258.533 121.893 252.993 115 246.597 115H56C47.5992 115 43.3988 115 40.1902 113.365C37.3677 111.927 35.073 109.632 33.6349 106.81C32 103.601 32 99.4008 32 91V52C32 43.5992 32 39.3988 33.6349 36.1901C35.073 33.3677 37.3677 31.073 40.1902 29.6349C43.3988 28 47.5992 28 56 28H305C313.401 28 317.601 28 320.81 29.6349C323.632 31.073 325.927 33.3677 327.365 36.1901Z" fill="#A393F5" fill-opacity="0.55"/>
-        </g>
-        <text x="50" y="60" fill="white" fontSize="20" fontWeight="none">Какой уровень является <tspan x="50" dy="25">для</tspan><br />  вас нормальным?
-</text>
-        <defs>
-          <filter id="filter0_dd_278_7308" x="0" y="0" width="361" height="175" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-            <feOffset dy="4"/>
-            <feGaussianBlur stdDeviation="16"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.16 0"/>
-            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_278_7308"/>
-            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-            <feOffset/>
-            <feGaussianBlur stdDeviation="2"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0"/>
-            <feBlend mode="normal" in2="effect1_dropShadow_278_7308" result="effect2_dropShadow_278_7308"/>
-            <feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow_278_7308" result="shape"/>
-          </filter>
-        </defs>
-      </svg>
-    </div>
-    <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
-        <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Сахар</p> 
-        <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ммоль/л</p> 
-      </div>
-      <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <IndicatorSugar />
+				<Panel id='card' style={{ backdropFilter: isPopoutOpen ? 'blur(4px)' : 'none' }}>
+  <Panel>
+    <CardGrid>
+      <div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '382px', height: '378px', marginTop: '47px' }}>
+        <div style={{ marginBottom: '-8px', marginTop: '-17px' }} >
+          <p style={{fontSize: '24px', color: 'black'}}>Показатели за день</p>
         </div>
-      </div>
-    </div>
-    <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
-        <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Давление</p> 
-        <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Мм.рт.ст.</p> 
-      </div>
-      <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <IndicatorPressure />
-        </div>
-      </div>
-    </div>
-    <div style={{ backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
-        <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Пульс</p> 
-        <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ударов в минуту</p> 
-      </div>
-      <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
-          <div style={{ position: 'relative', width: '100%' }}>
-            <IndicatorPulse />
+        <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px #d4d4d6 solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
+            <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Сахар</p> 
+            <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ммоль/л</p> 
           </div>
+          <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <IndicatorSugar />
+            </div>
+          </div>
+        </div>
+        <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px #d4d4d6 solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
+            <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Давление</p> 
+            <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Мм.рт.ст.</p> 
+          </div>
+          <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <IndicatorPressure />
+            </div>
+          </div>
+        </div>
+        <div style={{ backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px #d4d4d6 solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
+            <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Пульс</p> 
+            <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ударов в минуту</p> 
+          </div>
+          <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
+            <div style={{ position: 'relative', width: '100%' }}>
+              <IndicatorPulse />
+            </div>
+          </div>
+        </div>
+        <div style={{ marginTop: '22px' }}>
+          <button className='saveButton'>
+            Сохранить
+          </button>
+        </div>
       </div>
-    </div>
-    <div style={{ marginTop: '22px' }}>
-	<button className='saveButton'>
-  Сохранить
-</button>
-
-    </div>
-  </div>
-			</CardGrid>	
-				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-      
-        <div style={{ position: 'relative', backgroundColor: '#A393F5', borderRadius: 8, width: '186px', height: '145px', margin: '27px 16px 0px 0px', marginLeft: '16px' }}>
-			<div style={{margin: '16px 0px 0px 14px'}}>
-          <CalendarSVG />
-		  </div>
+      <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+        <div style={{ position: 'relative', backgroundColor: '#A393F5', borderRadius: 8, width: '186px', height: '145px', margin: '27px 16px 0px 0px' }}>
+          <div style={{margin: '16px 0px 0px 14px'}}>
+            <CalendarSVG />
+          </div>
           <div style={{ position: 'absolute', top: -5, left: '55%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
             <p style={{fontSize: '20px'}}>Календарь</p>
           </div>
           <button className='goButton' onClick={() => setActivePanel('calendar')}>Перейти</button>
         </div>
-      
-      
+
         <div style={{ position: 'relative', backgroundColor: '#c4bcf3', borderRadius: 8, width: '186px', height: '145px', margin: '27px 16px 0px 0px' }}>
-		<div style={{margin: '16px 0px 0px 14px'}}>
-          <MedicineSVG />
-		  </div>
+          <div style={{margin: '16px 0px 0px 14px'}}>
+            <MedicineSVG />
+          </div>
           <div style={{ position: 'absolute', top: -5, left: '55%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
             <p style={{fontSize: '20px'}}>Лекарства</p>
           </div>
           <button className='goButton' onClick={() => setActivePanel('medicines')}>Перейти</button>
         </div>
-      
-    </div> 
-					<CardGrid size="l" spaced>
-					<div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '382px', height: '378px', marginTop: '27px' }}>
-    <div style={{ marginBottom: '-8px', marginTop: '-17px' }} >
-		<p style={{fontSize: '24px', color: 'black'}}>Показатели за день</p>
-    </div>
-    <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
-        <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Сахар</p> 
-        <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ммоль/л</p> 
       </div>
-      <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <IndicatorSugar />
-        </div>
-      </div>
-    </div>
-    <div style={{ marginBottom: '22px', backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
-        <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Давление</p> 
-        <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Мм.рт.ст.</p> 
-      </div>
-      <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
-        <div style={{ position: 'relative', width: '100%' }}>
-          <IndicatorPressure />
-        </div>
-      </div>
-    </div>
-    <div style={{ backgroundColor: '#F2F3F5', borderRadius: 20, padding: '10px', border: '1px solid', width: '330px', height: '64px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '10px' }}>
-        <p style={{ color: 'black', fontSize: '20px', marginBottom: '5px' }}>Пульс</p> 
-        <p style={{ color: 'black', fontSize: '14px', marginTop: '0px' }}>Ударов в минуту</p> 
-      </div>
-      <div style={{ flex: '1', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', overflow: 'hidden' }}>
-          <div style={{ position: 'relative', width: '100%' }}>
-            <IndicatorPulse />
-          </div>
-      </div>
-    </div>
-    <div style={{ marginTop: '22px' }}>
-      <button className='saveButton'>
-        Сохранить
-      </button>
-    </div>
+    </CardGrid>
+  </Panel>	
+  <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+    <Example/>
   </div>
-					</CardGrid>
-					</Panel>
-				</Panel>
+</Panel>
+
+				
 				<Panel id='calendar'>
 					<PanelHeader
 						before={
-							<PanelHeaderButton>
-							<Icon28ArrowLeftOutline onClick={() => setActivePanel('card')}/>
+							<PanelHeaderButton onClick={() => setActivePanel("card")}>
+							<Icon28ArrowLeftOutline/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -307,32 +315,12 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели сахара за день
-							<BarChart width={400} height={300} data={data3}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15}/>
-							</BarChart>
-							</div>
-
+							<div>Показатели сахара за день</div>
 						</div>
-						<div>
-   	 </div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели сахара за год
-							<BarChart width={400} height={300} data={data}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15} />
-							</BarChart>
-							</div>
+							<div>Показатели сахара за год</div>
 						</div>
 						</div>
 					</CardGrid>
@@ -341,7 +329,7 @@ const App = () => {
 					<PanelHeader
 						before={
 							<PanelHeaderButton>
-							<Icon28ArrowLeftOutline onClick={() => setActivePanel('calendar')}/>
+							<Icon28ArrowLeftOutline/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -364,29 +352,12 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели давления за день
-							<BarChart width={400} height={300} data={data4}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="Давление" fill="rgba(163, 147, 245, 0.55)" radius={15}/>
-							</BarChart>
-							</div>
+							<div>Показатели давления за день</div>
 						</div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели давления за год
-							<BarChart width={400} height={300} data={data2}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="Давление" fill="rgba(163, 147, 245, 0.55)" radius={15}/>
-							</BarChart>
-							</div>
+							<div>Показатели давления за год</div>
 						</div>
 						</div>
 					</CardGrid>
@@ -395,7 +366,7 @@ const App = () => {
 				<PanelHeader
 						before={
 							<PanelHeaderButton>
-							<Icon28ArrowLeftOutline onClick={() => setActivePanel('calendar1')}/>
+							<Icon28ArrowLeftOutline/>
 							</PanelHeaderButton>
 						}	
 					>	
@@ -418,29 +389,12 @@ const App = () => {
 					<CardGrid size="s" spaced>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели пульса за день
-							<BarChart width={400} height={300} data={data5}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="Пульс" fill="#792EC0" radius={15}/>
-							</BarChart>
-							</div>
+							<div>Показатели пульса за день</div>
 						</div>
 						</div>
 						<div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
 						<div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-							<div>Показатели пульса за год
-							<BarChart width={400} height={300} data={data1}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="Пульс" fill="#792EC0" radius={15}/>
-							</BarChart>
-							</div>
+							<div>Показатели пульса за год</div>
 						</div>
 						</div>
 					</CardGrid>	
@@ -449,7 +403,7 @@ const App = () => {
 					<PanelHeader
 					before={
 						<PanelHeaderButton>
-						<Icon28CancelCircleOutline onClick={() => setActivePanel('calendar2')}/>
+						<Icon28CancelCircleOutline onClick={() => setActivePanel('card')}/>
 						</PanelHeaderButton>
 					}	
 					>
@@ -573,6 +527,22 @@ const App = () => {
 
         </Panel>
 				</View>
+				<div style={{ maxWidth: 768, margin: 'auto' }}>
+					<Tabbar style={{ position: 'static', margin: '10px 0' }}>
+					<TabbarItem selected={text === 'one'} onClick={() => setText('one')} text="Сервисы">
+							<Icon28Square4Outline />
+						</TabbarItem>
+						<TabbarItem selected={text === 'two'} onClick={() => setText('two')} text="Новости">
+							<Icon28NewsfeedOutline />
+						</TabbarItem>
+						<TabbarItem selected={text === 'three'} onClick={() => setText('three')} text="Профиль">
+							<Icon28UserCircleOutline />
+						</TabbarItem>
+						<TabbarItem selected={text === 'four'} onClick={() => setText('four')} text="Мессенджер">
+							<Icon28MessageOutline />
+						</TabbarItem>
+					</Tabbar>
+  				</div>
 				</AppRoot>
 			</AdaptivityProvider>
 		</ConfigProvider>

@@ -1,0 +1,19 @@
+.changeNormal {
+    width: 330px;
+    height: 83px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    background-color: #c4bcf3;
+    font-size: 24px;
+    color: white;
+    transition: border-color 0.1s ease, background-color 0.1s ease;
+    text-align: center;
+}
+
+.changeNormal:active {
+    background-color: #A393F5;
+    border-color: #A393F5;
+  }
+
+  
+  
