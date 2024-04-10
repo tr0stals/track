@@ -1,17 +1,16 @@
-.saveButton {
+.changeReadingsButton {
     width: 330px;
-    height: 44px;
-    background-color: #A393F5;
+    height: 83px;
+    background-color: #c4bcf3;
     border: 2px solid transparent;
-    border-radius: 30px;
+    border-radius: 17px;
     font-size: 24px;
     transition: border-color 0.3s ease, background-color 0.3s ease;
     color: white;
     border-color: #A393F5;
   }
   
-  .saveButton:active {
-    background-color: #792EC0;
-    border-color: #792EC0;
+  .changeReadingsButton:active {
+    background-color: #A393F5;
   }
   
