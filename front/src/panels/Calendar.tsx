@@ -3,7 +3,7 @@ import { Panel, Button, Div, HorizontalScroll } from '@vkontakte/vkui';
 import { format, addDays, addWeeks, isToday } from 'date-fns';
 import { ru } from 'date-fns/locale/ru';
 
-const CalendarPanel = () => {
+const MyCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const handlePrevWeek = () => {
@@ -54,4 +54,4 @@ const CalendarPanel = () => {
   );
 };
 
-export default CalendarPanel;
+export default MyCalendar;
