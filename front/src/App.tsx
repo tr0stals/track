@@ -63,6 +63,7 @@ const App = () => {
 
   );
 
+
   const data = [
     { name: 'Янв', УровеньСахара: 6.1 },
     { name: 'Фев', УровеньСахара: 5.5 },
@@ -149,13 +150,14 @@ const App = () => {
         }
       };
 
+
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [onClose]);
 
-
+    
     useEffect(() => {
 
       async function fetchData() {
@@ -272,7 +274,7 @@ const App = () => {
 
     return (
       <div>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginTop: "20px" }}>
           <button className='changeNormal' onClick={onClick}>
             Изменить норму <br /> показаний
           </button>
