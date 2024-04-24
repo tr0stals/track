@@ -5,6 +5,7 @@ import '@vkontakte/vkui/dist/vkui.css';
 import { Icon28NewsfeedOutline, Icon28UserCircleOutline, Icon28MessageOutline, Icon24MessageOutline, Icon28BillheadOutline, Icon28Square4Outline, Icon28ArrowLeftOutline, Icon28CancelCircleOutline } from '@vkontakte/icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import MyCalendar from './panels/Calendar';
+import TimePicker from './panels/timePicker';
 
 
 
@@ -20,6 +21,7 @@ import './styles/changeNormalButton.css'
 import './styles/calendarBlur.css'
 import MyFullCalendar from './panels/FullCalendar';
 import Interval from './panels/Interval';
+
 
 const CalendarSVG = () => (
   <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,6 +45,8 @@ const App = () => {
   const [isPopoutOpen, setIsPopoutOpen] = useState(false);
   const [calendarBlur, setCalendarBlur] = useState(false);
   const [medicineBlur, setMedicineBlur] = useState(false);
+  
+ 
 
   const CalendarSVG = () => (
     <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -703,6 +707,15 @@ const App = () => {
                   </label>
                 </div>
               </div>
+			  <div style={{ backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', width: '380px', height: '127px', padding: '4px 10px 10px 16px', marginLeft: '17px', marginTop: '15px' }}>
+			  	<div>
+                  <p style={{ fontSize: '24px', color: 'black', margin: '4px 0px 0px 4px' }}>Частота приема:</p>
+                </div>
+				<div style={{ display: 'flex', justifyContent: 'center', marginTop: '13px'}}>
+					<TimePicker/>
+				</div>	  	
+			  </div>
+			  
               <div style={{marginTop: '20px'}}>
               <Interval/>
               </div>
