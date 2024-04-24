@@ -503,10 +503,10 @@ const App = () => {
               <MyFullCalendar />
               <br />
               <CardGrid size="s" spaced>
-                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
+                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '70%', borderRadius: 20, width: '100%', marginBottom: "30px" }}>
                   <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
                     <div>Показатели давления за день</div>
-                    <BarChart width={400} height={300} data={data4}>
+                    <BarChart width={300} height={200} data={data4}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <YAxis />
                       <Tooltip />
@@ -515,10 +515,10 @@ const App = () => {
                     </BarChart>
                   </div>
                 </div>
-                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
+                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '70%', borderRadius: 20, width: '100%' }}>
                   <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
                     <div>Показатели давления за год</div>
-                    <BarChart width={400} height={300} data={data2}>
+                    <BarChart width={300} height={200} data={data2}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
@@ -557,10 +557,10 @@ const App = () => {
               <br />
 
               <CardGrid size="s" spaced>
-                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
+                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '70%', borderRadius: 20, width: '100%', marginBottom: '30px' }}>
                   <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
                     <div>Показатели пульса за день</div>
-                    <BarChart width={400} height={300} data={data5}>
+                    <BarChart width={300} height={200} data={data5}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <YAxis />
                       <Tooltip />
@@ -569,10 +569,10 @@ const App = () => {
                     </BarChart>
                   </div>
                 </div>
-                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
+                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '70%', borderRadius: 20, width: '100%' }}>
                   <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
                     <div>Показатели пульса за год</div>
-                    <BarChart width={400} height={300} data={data1}>
+                    <BarChart width={300} height={200} data={data1}>
                       <CartesianGrid strokeDasharray="3 3" />
                       <XAxis dataKey="name" />
                       <YAxis />
