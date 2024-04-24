@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ReactNode, MouseEventHandler, useRef } from 'react';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
-import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup, DatePicker, FormItem, Group } from '@vkontakte/vkui';
+import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup, DatePicker, FormItem, Group, ViewHeight } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import { Icon28NewsfeedOutline, Icon28UserCircleOutline, Icon28MessageOutline, Icon24MessageOutline, Icon28BillheadOutline, Icon28Square4Outline, Icon28ArrowLeftOutline, Icon28CancelCircleOutline } from '@vkontakte/icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
@@ -279,7 +279,59 @@ const App = () => {
     );
   };
 
-  <Example />;
+  const YourComponent = () => {
+    // Обработчик события для кнопки "Сохранить"
+    const handleSaveButtonClick = async () => {
+      // Собираем данные показателей сахара, давления и пульса
+      const sugarValue = getSugarValue();
+      const pressureValue = getPressureValue();
+      const pulseValue = getPulseValue();
+  
+      // Отправляем данные на сервер для сохранения
+      try {
+        const response = await fetch('/api/saveData', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ sugarValue, pressureValue, pulseValue }),
+        });
+        if (response.ok) {
+          alert('Данные успешно сохранены');
+        } else {
+          alert('Ошибка при сохранении данных');
+        }
+      } catch (error) {
+        console.error('Ошибка при сохранении данных:', error);
+        alert('Ошибка при сохранении данных');
+      }
+    };
+  
+    // Функции для получения значений показателей сахара, давления и пульса
+    const getSugarValue = () => {
+      // Реализуйте эту функцию в соответствии с вашей логикой
+    };
+  
+    const getPressureValue = () => {
+      // Реализуйте эту функцию в соответствии с вашей логикой
+    };
+  
+    const getPulseValue = () => {
+      // Реализуйте эту функцию в соответствии с вашей логикой
+    };
+  
+    return (
+      <div>
+        {/* Ваш JSX код для компонента */}
+        <button className='saveButton' onClick={handleSaveButtonClick}>
+          Сохранить
+        </button>
+      </div>
+    );
+  };
+  
+
+  
 
   const [simple, setSimple] = useState('one');
   const [text, setText] = useState('one');
@@ -391,29 +443,29 @@ const App = () => {
               </div>        <MyFullCalendar />
               <br />
               <CardGrid size="s" spaced>
-                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
-                  <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
-                    <div>Показатели сахара за день</div>
-                    <BarChart width={400} height={300} data={data3}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15}/>
-							</BarChart>
+                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '70%', borderRadius: 20, width: '100%', marginBottom: '30px' }}>
+                  <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', width: '100%' }}>
+                    <div style={{textAlign: 'center'}}>Показатели сахара за день</div>
+                      <BarChart width={300} height={200} data={data3}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="УровеньСахара" fill="#A393F5" radius={15}/>
+                      </BarChart>
                   </div>
                 </div>
-                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '50%', borderRadius: 20, width: '100%' }}>
+                <div style={{ position: 'relative', color: 'black', backgroundColor: 'white', paddingBottom: '70%', borderRadius: 20, width: '100%' }}>
                   <div style={{ position: 'absolute', top: 10, left: '50%', transform: 'translateX(-50%)', textAlign: 'center', width: '100%' }}>
                     <div>Показатели сахара за год</div>
-                    <BarChart width={400} height={300} data={data}>
-								<CartesianGrid strokeDasharray="3 3" />
-								<XAxis dataKey="name" />
-								<YAxis />
-								<Tooltip />
-								<Legend />
-								<Bar dataKey="УровеньСахара" fill="#A393F5" radius={15} />
-							</BarChart>
+                    <BarChart width={300} height={200} data={data}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="УровеньСахара" fill="#A393F5" radius={15} />
+                    </BarChart>
                   </div>
                 </div>
               </CardGrid>
