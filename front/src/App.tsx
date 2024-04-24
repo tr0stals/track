@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ReactNode, MouseEventHandler, useRef } from 'react';
 import bridge, { UserInfo } from '@vkontakte/vk-bridge';
-import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup, ModalDismissButton } from '@vkontakte/vkui';
+import { ScreenSpinner, AdaptivityProvider, AppRoot, ConfigProvider, Tabbar, TabbarItem, View, Panel, PanelHeader, CardGrid, Card, Spacing, PanelHeaderBack, PanelHeaderButton, Button, Div, ButtonGroup, DatePicker, FormItem, Group } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
 import { Icon28NewsfeedOutline, Icon28UserCircleOutline, Icon28MessageOutline, Icon24MessageOutline, Icon28BillheadOutline, Icon28Square4Outline, Icon28ArrowLeftOutline, Icon28CancelCircleOutline } from '@vkontakte/icons';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
@@ -20,6 +20,7 @@ import './styles/medicineCheckbox.css'
 import './styles/changeNormalButton.css'
 import './styles/calendarBlur.css'
 import MyFullCalendar from './panels/FullCalendar';
+import Interval from './panels/Interval';
 
 
 const CalendarSVG = () => (
@@ -125,8 +126,13 @@ const App = () => {
   };
 
   const onClick = () => {
-    setPopout(<CustomPopout onClose={() => setIsPopoutOpen(false)} />);
-    setIsPopoutOpen(true);
+    if (!isPopoutOpen) { // проверка на открытость модального окна
+      setIsPopoutOpen(true);
+      setPopout(<CustomPopout onClose={() => {
+        setIsPopoutOpen(false);
+        setPopout(null);
+      }} />);
+    }
   };
 
   interface CustomPopoutProps {
@@ -182,9 +188,9 @@ const App = () => {
         alignItems: 'center',
       }}>
 
-        <CardGrid size="l" spaced>
+        <CardGrid>
           <div style={{ backgroundColor: "white", borderRadius: 20 }}>
-            <MyCalendar />
+            
           </div>
           <div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '382px', height: '460px' }}>
             <div style={{ marginBottom: '-27px' }} >
@@ -195,7 +201,7 @@ const App = () => {
                 <text x="50" y="60" fill="white" fontSize="20" fontWeight="none">Какой уровень является <tspan x="50" dy="25">для</tspan><br />  вас нормальным?
                 </text>
                 <defs>
-                  <filter id="filter0_dd_278_7308" x="0" y="0" width="361" height="175" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                  <filter id="filter0_dd_278_7308" x="0" y="0" width="361" height="175" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                     <feFlood flood-opacity="0" result="BackgroundImageFix" />
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                     <feOffset dy="4" />
@@ -259,8 +265,10 @@ const App = () => {
 
   const Example = () => {
     const [popout, setPopout] = useState<React.ReactNode>(null);
+    const [isPopoutOpen, setIsPopoutOpen] = useState(false);
 
     const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} />);
+    
 
     return (
       <div>
@@ -288,6 +296,9 @@ const App = () => {
             <Panel id='card' style={{ backdropFilter: isPopoutOpen ? 'blur(4px)' : 'none' }}>
               <Panel>
                 <CardGrid>
+                  <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '30px', width: '382px', height: '92px'}}>
+                <MyCalendar />
+                </div>
                   <div style={{ paddingBottom: '30%', backgroundColor: 'white', borderRadius: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', width: '382px', height: '378px', marginTop: '47px' }}>
                     <div style={{ marginBottom: '-8px', marginTop: '-17px' }} >
                       <p style={{ fontSize: '24px', color: 'black' }}>Показатели за день</p>
@@ -358,8 +369,6 @@ const App = () => {
                 <Example />
               </div>
             </Panel>
-
-
             <Panel id='calendar'>
               <PanelHeader
                 before={
@@ -416,7 +425,7 @@ const App = () => {
             <Panel id='calendar1'>
               <PanelHeader
                 before={
-                  <PanelHeaderButton>
+                  <PanelHeaderButton onClick={() => setActivePanel("card")}>
                     <Icon28ArrowLeftOutline />
                   </PanelHeaderButton>
                 }
@@ -470,7 +479,7 @@ const App = () => {
             <Panel id='calendar2'>
               <PanelHeader
                 before={
-                  <PanelHeaderButton>
+                  <PanelHeaderButton onClick={() => setActivePanel("card")}>
                     <Icon28ArrowLeftOutline />
                   </PanelHeaderButton>
                 }
@@ -541,7 +550,7 @@ const App = () => {
                       <text x="50" y="60" fill="white" fontSize="20" fontWeight="none">Какой уровень является <tspan x="50" dy="25">для</tspan><br />  вас нормальным?
                       </text>
                       <defs>
-                        <filter id="filter0_dd_244_14610" x="-2" y="0" width="378" height="175" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <filter id="filter0_dd_244_14610" x="-2" y="0" width="378" height="175" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
                           <feFlood flood-opacity="0" result="BackgroundImageFix" />
                           <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                           <feOffset dy="4" />
@@ -655,28 +664,14 @@ const App = () => {
 				</div>	  	
 			  </div>
 			  
-				
-			  
-			  
-
+              <div style={{marginTop: '20px'}}>
+              <Interval/>
+              </div>
+              <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+              
+              </div>
             </Panel>
           </View>
-          <div style={{ maxWidth: 768, margin: 'auto' }}>
-            <Tabbar style={{ position: 'static', margin: '10px 0' }}>
-              <TabbarItem selected={text === 'one'} onClick={() => setText('one')} text="Сервисы">
-                <Icon28Square4Outline />
-              </TabbarItem>
-              <TabbarItem selected={text === 'two'} onClick={() => setText('two')} text="Новости">
-                <Icon28NewsfeedOutline />
-              </TabbarItem>
-              <TabbarItem selected={text === 'three'} onClick={() => setText('three')} text="Профиль">
-                <Icon28UserCircleOutline />
-              </TabbarItem>
-              <TabbarItem selected={text === 'four'} onClick={() => setText('four')} text="Мессенджер">
-                <Icon28MessageOutline />
-              </TabbarItem>
-            </Tabbar>
-          </div>
         </AppRoot>
       </AdaptivityProvider>
     </ConfigProvider>
